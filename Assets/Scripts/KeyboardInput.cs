@@ -8,6 +8,7 @@ public class KeyboardInput : MonoBehaviour
     CarController carController;
     public SteeringWheelController steerController;
     public PedalController pedalController;
+    public Engine engine;
 
     private void Start()
     {
@@ -21,5 +22,19 @@ public class KeyboardInput : MonoBehaviour
         pedalController.PressGas(Input.GetAxis("Gas"));
         pedalController.PressBrake(Input.GetAxis("Brake"));
         pedalController.PressClutch(Input.GetAxis("Clutch"));
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            engine.ToggleEngine();
+        }
+
+        if (Input.GetKeyDown(KeyCode.O)) 
+        {
+            engine.ShiftDown(pedalController.Clutch);
+        }
+        else if (Input.GetKeyDown(KeyCode.P)) 
+        {
+            engine.ShiftUp(pedalController.Clutch);
+        }
     }
 }

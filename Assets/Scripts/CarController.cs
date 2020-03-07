@@ -10,15 +10,29 @@ public class CarController : MonoBehaviour
     public float MaxAcceleration;
     public int MaxSteerAngle = 45;
     public float SteerSensitivity;
+    Engine engine;
+    [HideInInspector]public Rigidbody RigidBody;
+
+    private void Start()
+    {
+        engine = GetComponent<Engine>();
+        RigidBody = GetComponent<Rigidbody>();        
+    }
 
     //Reduce CoM
 
-    public void Accelerate(float acceleration)
-    {
-        acceleration *= -1;
 
-        BLCollider.motorTorque = acceleration * MaxAcceleration * Time.deltaTime;
-        BRCollider.motorTorque = acceleration * MaxAcceleration * Time.deltaTime;
+    public void ApplyTorque(float threshold)
+    {
+        threshold *= -1;
+
+        var torque = MaxAcceleration * engine.GetTorque(Mathf.Abs(RigidBody.velocity.z), threshold);
+
+        //print(torque);
+
+        BLCollider.motorTorque = torque * Time.deltaTime;
+        BRCollider.motorTorque = torque * Time.deltaTime;
+
     }
 
     public void Steer(float steerInput)
