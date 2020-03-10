@@ -1005,16 +1005,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2072523767330806299, guid: e80ca7bd60df7d9438c9d1b4e376ebb8,
-        type: 3}
-      propertyPath: m_Drag
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5927111962706783340, guid: e80ca7bd60df7d9438c9d1b4e376ebb8,
-        type: 3}
-      propertyPath: MaxAcceleration
-      value: 1000
-      objectReference: {fileID: 0}
     - target: {fileID: 6752437708652341554, guid: e80ca7bd60df7d9438c9d1b4e376ebb8,
         type: 3}
       propertyPath: m_LocalPosition.x

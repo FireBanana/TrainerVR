@@ -15,6 +15,18 @@ public class KeyboardInput : MonoBehaviour
         carController = GetComponent<CarController>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            engine.ShiftDown();
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            engine.ShiftUp();
+        }
+    }
+
     void FixedUpdate()
     {
         steerController.TurnWheel(Input.GetAxis("Horizontal"));
@@ -25,16 +37,7 @@ public class KeyboardInput : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            engine.ToggleEngine();
-        }
-
-        if (Input.GetKeyDown(KeyCode.O)) 
-        {
-            engine.ShiftDown(pedalController.Clutch);
-        }
-        else if (Input.GetKeyDown(KeyCode.P)) 
-        {
-            engine.ShiftUp(pedalController.Clutch);
-        }
+            //Toggle engine
+        }        
     }
 }

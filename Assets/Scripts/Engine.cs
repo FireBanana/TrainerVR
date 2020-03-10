@@ -21,176 +21,119 @@ public class Engine : MonoBehaviour
         Fifth,
     }
 
-    //List<float> gearRatios = new List<float>()
-    //{
-    //    3.166f,
-    //    1.882f,
-    //    1.296f,
-    //    0.972f,
-    //    0.738f,
-    //    1
-    //};
-
-    List<float> gearSpeeds = new List<float>()
+    List<float[]> gearTorqueMultipliers = new List<float[]>()
     {
-        5.55f,
-        11.11f,
-        16.66f,
-        25f,
-        38.8f
+        new float[]{0, 5.55f},
+        new float[]{5.55f, 12.5f},
+        new float[]{12.5f, 20.93f},
+        new float[]{20.93f, 25f},
+        new float[]{25f, 36.1f},
     };
 
-    List<int> torques = new List<int>()
+    [HideInInspector] public GearState CurrentGear = GearState.First;
+    public int acceleration;
+
+    public void ShiftUp()
     {
-        110,
-        131,
-        148,
-        163,
-        181
-    };
+        var currentGear = GetGear();
 
-    List<int> rpms = new List<int>()
-    {
-        947,
-        1594,
-        2314,
-        3086,
-        4065
-    };
+        if (currentGear == 5)
+            return;
 
-    float finalDriveRatio = 3.69f;
-
-    public GearState CurrentGear = GearState.Neutral;
-    List<GearState> CurrentGearArray;
-
-    [HideInInspector] public bool IsEngineOn = false;
-    [HideInInspector] public int EngineRPM;
-
-    private void Start()
-    {
-        pedalController = GetComponent<PedalController>();
-        CurrentGearArray = Enum.GetValues(typeof(GearState)).Cast<GearState>().ToList();
+        ChangeGear(currentGear + 1);
     }
 
-    public void ToggleEngine()
+    public void ShiftDown()
     {
-        if (IsEngineOn)
-        {
-            IsEngineOn = false;
-            Debug.Log("Engine is off");
-        }
-        else
-        {
-            IsEngineOn = true;
-            Debug.Log("Engine is on");
-        }
+        var currentGear = GetGear();
+
+        if (currentGear == -1)
+            return;
+
+        ChangeGear(currentGear - 1);
     }
 
-    public void ShiftUp(Clutch clutch)
+    int GetGear()
     {
-        if (clutch.State.IsPressed)
-        {
-            CurrentGear = CurrentGearArray.ToList().GetNextGear();
-            Debug.Log("Gear changed up");
-        }
-        else
-            Debug.LogError("Gear Contact with shaft!");
-    }
-
-    public void ShiftDown(Clutch clutch)
-    {
-        if (clutch.State.IsPressed)
-        {
-            CurrentGear = CurrentGearArray.ToList().GetPreviousGear();
-            Debug.Log("Gear Changed down");
-        }
-        else
-            Debug.LogError("Gear Contact with shaft!");
-    }
-
-    float GetRPM(float velocity, float gasThreshold)
-    {
-        float maxSpeed = gearSpeeds[0];
-        float minSpeed = 0;
-
         switch (CurrentGear)
         {
-            case GearState.Neutral:
-                maxSpeed = 0;
-                break;
-            case GearState.First:
-                maxSpeed = gearSpeeds[0];
-                minSpeed = 1;
-                break;
-            case GearState.Second:
-                maxSpeed = gearSpeeds[1];
-                minSpeed = gearSpeeds[0];
-                break;
-            case GearState.Third:
-                maxSpeed = gearSpeeds[2];
-                minSpeed = gearSpeeds[1];
-                break;
-            case GearState.Fourth:
-                maxSpeed = gearSpeeds[3];
-                minSpeed = gearSpeeds[2];
-                break;
-            case GearState.Fifth:
-                maxSpeed = gearSpeeds[4];
-                minSpeed = gearSpeeds[3];
-                break;
             case GearState.Reverse:
-                maxSpeed = gearSpeeds[0];
-                minSpeed = 1;
+                return -1;
+            case GearState.Neutral:
+                return 0;
+            case GearState.First:
+                return 1;
+            case GearState.Second:
+                return 2;
+            case GearState.Third:
+                return 3;
+            case GearState.Fourth:
+                return 4;
+            case GearState.Fifth:
+                return 5;
+        }
+
+        return 0;
+    }
+
+    void ChangeGear(int gear)
+    {
+        switch (gear)
+        {
+            case -1:
+                CurrentGear = GearState.Reverse;
+                break;
+            case 0:
+                CurrentGear = GearState.Neutral;
+                break;
+            case 1:
+                CurrentGear = GearState.First;
+                break;
+            case 2:
+                CurrentGear = GearState.Second;
+                break;
+            case 3:
+                CurrentGear = GearState.Third;
+                break;
+            case 4:
+                CurrentGear = GearState.Fourth;
+                break;
+            case 5:
+                CurrentGear = GearState.Fifth;
                 break;
         }
-
-        var speedRatio = (velocity - minSpeed) / (maxSpeed - minSpeed);
-        var res = 2000 + ((speedRatio * gasThreshold) * (3500 - 2000));
-        EngineRPM = (int)res;
-        return res;
     }
 
-    public float GetTorque(float velocity, float gasThreshold)
+    public float GetAcceleration(float currentSpeed, float gearThreshold)
     {
-        //if(velocity < 10 && CurrentGear != GearState.Neutral && CurrentGear != GearState.First && IsEngineOn && !pedalController.Clutch.State.IsPressed)
-        //{
-        //    ToggleEngine();
-        //}
+        //check if accelerator pressed
 
-        //if (!IsEngineOn)
-        //    return 0;
 
-        if (CurrentGear == GearState.Neutral)
+        if (CurrentGear == GearState.Reverse || CurrentGear == GearState.Neutral)
+        {
+            //Reverse stuff here
             return 0;
-
-        float RPM = GetRPM(velocity, gasThreshold);
-        return Mathf.Lerp(0, 180, (RPM - 2000) / (3500 - 2000)) * -1;
-    }
-}
-
-public static class EngineExtensions
-{
-    //Extension
-    static int counter = 1;
-    public static GearState GetNextGear(this List<GearState> source)
-    {
-        if (counter + 1 == source.Count())
-        {
-            return source[counter];
         }
 
-        counter++;
-        return source[counter];
-    }
+        var speedFrame = gearTorqueMultipliers[GetGear() - 1];
+        float currentAcceleration;
 
-    public static GearState GetPreviousGear(this List<GearState> source)
-    {
-        if (counter - 1 == -1)
+        if (currentSpeed < speedFrame[0])
         {
-            return source[counter];
+            currentAcceleration = Mathf.Lerp(0, 1, currentSpeed / speedFrame[0]);
+        }
+        else
+        {
+            currentAcceleration = Mathf.Lerp(1, 0, currentSpeed / speedFrame[1]);
         }
 
-        counter--;
-        return source[counter];
+        //REMOVE THIS
+        UI.Instance.speed.text = currentSpeed.ToString("0.0");
+        //print(currentAcceleration);
+
+        if (currentAcceleration < 0.2f)
+            currentAcceleration = 0.2f;
+
+        return currentAcceleration * gearThreshold * acceleration;
     }
 }
