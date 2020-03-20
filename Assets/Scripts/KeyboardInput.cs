@@ -29,15 +29,16 @@ public class KeyboardInput : MonoBehaviour
 
     void FixedUpdate()
     {
-        steerController.TurnWheel(Input.GetAxis("Horizontal"));
+        //steerController.TurnWheel(Input.GetAxis("Horizontal"));
 
-        pedalController.PressGas(Input.GetAxis("Gas"));
-        pedalController.PressBrake(Input.GetAxis("Brake"));
-        pedalController.PressClutch(Input.GetAxis("Clutch"));
+        //pedalController.PressGas(Input.GetAxis("Gas"));
+        //pedalController.PressBrake(Input.GetAxis("Brake"));
+        //pedalController.PressClutch(Input.GetAxis("Clutch"));
 
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            //Toggle engine
-        }        
+        //if(Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    //Toggle engine
+        //}        
     }
+
 }

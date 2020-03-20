@@ -11,6 +11,7 @@ public class CarController : MonoBehaviour
     public float SteerSensitivity;
     Engine engine;
     [HideInInspector]public Rigidbody rigidBody;
+    float steerIncrement;
 
     private void Start()
     {
@@ -27,16 +28,18 @@ public class CarController : MonoBehaviour
 
         var torque = engine.GetAcceleration(transform.InverseTransformDirection(rigidBody.velocity).z * -1, threshold);
 
-        print(torque);
+        //print(torque);
 
         BLCollider.motorTorque = torque * Time.deltaTime;
         BRCollider.motorTorque = torque * Time.deltaTime;
 
     }
 
-    public void Steer(float steerInput)
+    public void Steer(float steerInc)
     {
-        var val = steerInput * SteerSensitivity;
+        steerIncrement += steerInc;
+
+        var val = steerIncrement * SteerSensitivity;
 
         FLCollider.steerAngle = Mathf.Lerp(FLCollider.steerAngle, val, 0.5f);
         FRCollider.steerAngle = Mathf.Lerp(FLCollider.steerAngle, val, 0.5f);
