@@ -36,13 +36,14 @@ public class LeftHand : MonoBehaviour
     {
         if (isHandIn && isGripHeld)
         {
-            currentInteract.Use(initialGrabLocation, transform.position - initialGrabLocation);
+            currentInteract.Use(initialGrabLocation, transform.position);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         isHandIn = true;
+        currentCollider = other;
     }
 
     private void OnTriggerExit(Collider other)

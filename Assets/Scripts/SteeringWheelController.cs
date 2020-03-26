@@ -8,7 +8,7 @@ public class SteeringWheelController : Usable
 {
     public CarController carController;
     public float TurnSensitivity = 10;
-    public float MaxTurnAngle = 100;
+    public float MaxTurnAngle = 180;
 
     Transform parentPivot;
 
@@ -20,21 +20,35 @@ public class SteeringWheelController : Usable
     public void TurnWheel(float turnIncrement)
     {
         var currentRotation = parentPivot.transform.eulerAngles;
-        parentPivot.transform.eulerAngles = Vector3.Lerp(currentRotation, new Vector3(currentRotation.x, currentRotation.y, currentRotation.z + turnIncrement /** MaxTurnAngle*/), TurnSensitivity);
+        parentPivot.transform.eulerAngles = Vector3.Lerp(currentRotation, new Vector3(currentRotation.x, currentRotation.y, currentRotation.z + turnIncrement), TurnSensitivity);
 
         carController.Steer(turnIncrement);
     }
 
-    Vector3 lastPosition;
+    Vector3 lastPosition = Vector3.zero;
+    float totalTurn;
 
-    public override void Use(Vector3 startPosition, Vector3 deltaPosition)
+    public override void Use(Vector3 startPosition, Vector3 currentPosition)
     {
-        if (lastPosition == null)
-            lastPosition = deltaPosition;
+        if (lastPosition == Vector3.zero)
+            lastPosition = currentPosition;
 
-        var angle = Vector3.Angle(lastPosition, deltaPosition);
+        var to = currentPosition - parentPivot.position;
+        var from = lastPosition - parentPivot.position;
+
+        var angle = Vector3.SignedAngle(from, to, parentPivot.forward);
+        lastPosition = currentPosition;
+
+        if (Mathf.Abs(totalTurn + angle) >= MaxTurnAngle)
+            return;
+
+        totalTurn += angle;
 
         TurnWheel(angle);
-        lastPosition = deltaPosition;
+    }
+
+    public override void Released()
+    {
+        lastPosition = Vector3.zero;
     }
 }

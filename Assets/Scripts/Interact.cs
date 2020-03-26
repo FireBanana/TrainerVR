@@ -6,8 +6,13 @@ public class Interact : MonoBehaviour
 {
     public Usable Interactable;
     
-    public void Use(Vector3 startPosition, Vector3 deltaPosition)
+    public void Use(Vector3 startPosition, Vector3 currentPosition)
     {
-        Interactable.Use(startPosition, deltaPosition);
+        Interactable.Use(startPosition, currentPosition);
+    }
+
+    public void Released()
+    {
+        Interactable.Released();
     }
 }

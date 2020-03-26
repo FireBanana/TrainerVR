@@ -296,7 +296,7 @@ public class DeviceConsole : MonoBehaviour
 		DeviceLogUI deviceLogUI = Instantiate<DeviceLogUI>(prefab);
 		deviceLogUI.textUI.text = text;
 		deviceLogUI.transform.SetParent(logContainer.transform);
-		deviceLogUI.transform.localScale = Vector3.one;
+		deviceLogUI.transform.localScale = new Vector3(-1, 1, 1);
 
 		curCharCount += deviceLogUI.textUI.text.Length;
 		
