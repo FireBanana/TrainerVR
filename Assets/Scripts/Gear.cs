@@ -1,66 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Gear : Usable
 {
-    int currentLevel = 1;
-    Vector3 lastPosition = Vector3.zero;
-
-    float totalX, totalZ;
-
-    public override void Use(Vector3 startPosition, Vector3 currentPosiiton)
+    struct GearPoint
     {
-        transform.up = currentPosiiton - transform.position;
+        public List<int> neighbourPoints;
+        Vector3 eulerRotation;
 
-        //if (lastPosition == Vector3.zero)
-        //    lastPosition = currentPosiiton;
+        public GearPoint(Vector3 _eulerRotation, IEnumerable<int> nPoints)
+        {
+            eulerRotation = _eulerRotation;
+            neighbourPoints = nPoints.ToList();
+        }
+    }
 
-        //var eulerRot = transform.eulerAngles;
-        //var newRotation = eulerRot;
+    // 1-index based (9-reverse)
+    Dictionary<int, GearPoint> gearPoints = new Dictionary<int, GearPoint>()
+    {
+        {1, new GearPoint(new Vector3(-22.7f, 8, -20), new[]{2} )},
+        {2, new GearPoint(new Vector3(0, 0, -18.3f), new[]{1, 3, 5} ) },
+        {3, new GearPoint(new Vector3(15.5f, -5.3f, -19), new[]{2} ) },
+        {4, new GearPoint(new Vector3(-26, 0, 0), new[]{5} ) },
+        {5, new GearPoint(new Vector3(0, 0, 0), new[]{2, 4, 6, 8} ) },
+        {6, new GearPoint(new Vector3(21.7f, 0, 0), new[]{5} ) },
+        {7, new GearPoint(new Vector3(-28, -11.3f, 23.1f), new[]{8} ) },
+        {8, new GearPoint(new Vector3(0, 0, 18), new[]{7, 5, 9} ) },
+        {9, new GearPoint(new Vector3(9.7f, 3.6f, 19), new[]{8} ) }
+    };
 
-        //var to = currentPosiiton - transform.position;
-        //var from = lastPosition - transform.position;
+    private void Start()
+    {
+    }
 
-        //var angleX = Vector3.SignedAngle(from, to, transform.right);
-        //var angleZ = Vector3.SignedAngle(from, to, transform.forward);
+    public override void Use(Vector3 startPosition, Vector3 currentPosition)
+    {
 
-        //if(Mathf.Abs(totalX + angleX) < 22)
-        //{
-        //    totalX += angleX;
-        //    newRotation.x += angleX;
-        //}
-
-        //if (Mathf.Abs(totalZ + angleZ) < 22)
-        //{
-        //    totalZ += angleZ;
-        //    newRotation.z += angleZ;
-        //}
-
-        //transform.eulerAngles = Vector3.Lerp(eulerRot, newRotation, 10);
-        //lastPosition = currentPosiiton;
     }
 
     public override void Released()
     {
-        lastPosition = Vector3.zero;
+
     }
 
     bool CanMoveHorizontal(Vector3 eulerRatation)
     {
-        if(eulerRatation.x >= -3 && eulerRatation.x <= 3)
-            return true;
 
-        return false;
     }
 
     bool CanMoveVertical(Vector3 eulerRatation)
     {
-        var z = eulerRatation.z;
 
-        if (z >= -22 && z <= -17 || z >= -3 && z <= 3 || z >= 22 && z <= 17)
-            return true;
-
-        return false;
     }
 }
