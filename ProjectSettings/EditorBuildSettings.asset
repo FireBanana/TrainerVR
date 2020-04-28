@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Levels/Testing.unity
     guid: 92bd41cbd38be4944b6de6c95c065b0b
   - enabled: 0
-    path: Assets/Levels/Training_Menu.unity
+    path: Assets/Levels/Training.unity
     guid: b37856208b023b241b56faa279c0b0e5
   - enabled: 0
     path: 

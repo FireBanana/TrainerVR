@@ -27,10 +27,12 @@ public class PedalController : MonoBehaviour
 
         Clutch = new Clutch();
         Gas = new Gas();
+
+        HandEventManager.RightIndexTriggerHeld += (val) => { PressGas(val); };
     }
 
     public void PressGas(float pushThreshold)
-    {
+    {        
         GasPedal.transform.eulerAngles = Vector3.Lerp(InitialRotation_Gas, new Vector3(InitialRotation_Gas.x + pushThreshold * MaxPushDistance, InitialRotation_Gas.y, InitialRotation_Gas.z), 0.5f);
         carController.ApplyTorque(pushThreshold);
     }

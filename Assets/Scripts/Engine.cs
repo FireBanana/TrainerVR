@@ -33,6 +33,12 @@ public class Engine : MonoBehaviour
     [HideInInspector] public GearState CurrentGear = GearState.First;
     public int acceleration;
 
+    private void Start()
+    {
+        HandEventManager.AButtonPressed += ShiftDown;
+        HandEventManager.BButtonPressed += ShiftUp;
+    }
+
     public void ShiftUp()
     {
         var currentGear = GetGear();
@@ -41,6 +47,8 @@ public class Engine : MonoBehaviour
             return;
 
         ChangeGear(currentGear + 1);
+
+        print("Current gear: " + GetGear());
     }
 
     public void ShiftDown()
@@ -51,6 +59,8 @@ public class Engine : MonoBehaviour
             return;
 
         ChangeGear(currentGear - 1);
+
+        print("Current gear: " + GetGear());
     }
 
     int GetGear()
@@ -128,7 +138,7 @@ public class Engine : MonoBehaviour
         }
 
         //REMOVE THIS
-        UI.Instance.speed.text = currentSpeed.ToString("0.0");
+        //UI.Instance.speed.text = currentSpeed.ToString("0.0");
         //print(currentAcceleration);
 
         if (currentAcceleration < 0.2f)

@@ -9,6 +9,8 @@ public class RightHand : MonoBehaviour
     Collider currentCollider;
     Interact currentInteract;
     Vector3 initialGrabLocation;
+    public Transform parentTransform;
+    public Transform controllerTransform;
 
     void Start()
     {
@@ -18,17 +20,19 @@ public class RightHand : MonoBehaviour
 
     void GripPressed()
     {
+        print("grip pressed");
         isGripHeld = true;
 
         if (isHandIn)
         {
             currentInteract = currentCollider.GetComponent<Interact>();
-            initialGrabLocation = transform.position;
+            //initialGrabLocation = transform.position;
         }
     }
 
     void GripReleased()
     {
+        print("grip released");
         isGripHeld = false;
     }
 
@@ -36,7 +40,7 @@ public class RightHand : MonoBehaviour
     {
         if (isHandIn && isGripHeld)
         {
-            currentInteract.Use(initialGrabLocation, transform.position);
+            currentInteract.Use(controllerTransform.localPosition, transform.position, parentTransform);
             inUse = true;
         }
         else if (!isGripHeld && isHandIn && inUse)
@@ -48,12 +52,24 @@ public class RightHand : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.tag == "UISelectable")
+        {
+            var uiSelectable = other.GetComponent<UISelectable>();
+            //ui selectable 
+            return;
+        }
+
         isHandIn = true;
         currentCollider = other;
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.tag == "UISelectable")
+        {
+            return;
+        }
+
         isHandIn = false;
     }
 }

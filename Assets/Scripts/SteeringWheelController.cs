@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Text;
 
 //Should be on the steering wheel object
 public class SteeringWheelController : Usable
@@ -28,22 +29,32 @@ public class SteeringWheelController : Usable
     Vector3 lastPosition = Vector3.zero;
     float totalTurn;
 
-    public override void Use(Vector3 startPosition, Vector3 currentPosition)
+    public override void Use(Vector3 localPosition, Vector3 currentPosition, Transform controllerTransform)
     {
+        //var builder = new StringBuilder();
+       // builder.Append("Angle: ").Append(angle).Append(", From: ").Append(from.ToString("F4")).Append(", To: ").Append(to.ToString("F4"));
+
         if (lastPosition == Vector3.zero)
-            lastPosition = currentPosition;
+            lastPosition = localPosition;
 
-        var to = currentPosition - parentPivot.position;
-        var from = lastPosition - parentPivot.position;
+        //builder.Append("Current: ").Append(localPosition.ToString("F4")).Append(", Last: ").Append(lastPosition.ToString("F4"));
 
-        var angle = Vector3.SignedAngle(from, to, parentPivot.forward);
-        lastPosition = currentPosition;
+        var steeringWheelLocalPosition = controllerTransform.InverseTransformPoint(parentPivot.position);
+
+        var to = localPosition - steeringWheelLocalPosition;
+        var from = lastPosition - steeringWheelLocalPosition;
+
+        var angle = Vector3.SignedAngle(from, to, controllerTransform.InverseTransformDirection(parentPivot.forward));
+        lastPosition = localPosition;
 
         if (Mathf.Abs(totalTurn + angle) >= MaxTurnAngle)
             return;
 
         totalTurn += angle;
 
+        
+
+        //print(builder.ToString());
         TurnWheel(angle);
     }
 

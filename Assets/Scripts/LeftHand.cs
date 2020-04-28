@@ -36,7 +36,7 @@ public class LeftHand : MonoBehaviour
     {
         if (isHandIn && isGripHeld)
         {
-            currentInteract.Use(initialGrabLocation, transform.position);
+            currentInteract.Use(transform.parent.localPosition, transform.position, transform);
         }
     }
 

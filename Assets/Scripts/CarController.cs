@@ -24,10 +24,11 @@ public class CarController : MonoBehaviour
 
     public void ApplyTorque(float threshold)
     {
-        threshold *= -1;
+        //threshold *= -1;
 
         var torque = engine.GetAcceleration(transform.InverseTransformDirection(rigidBody.velocity).z * -1, threshold);
 
+        //if(threshold > 0.3f)
         //print(torque);
 
         BLCollider.motorTorque = torque * Time.deltaTime;

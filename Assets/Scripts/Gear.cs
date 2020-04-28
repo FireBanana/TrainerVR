@@ -35,7 +35,7 @@ public class Gear : Usable
     {
     }
 
-    public override void Use(Vector3 startPosition, Vector3 currentPosition)
+    public override void Use(Vector3 startPosition, Vector3 currentPosition, Transform controllerTransform)
     {
 
     }
@@ -47,11 +47,11 @@ public class Gear : Usable
 
     bool CanMoveHorizontal(Vector3 eulerRatation)
     {
-
+        return false;
     }
 
     bool CanMoveVertical(Vector3 eulerRatation)
     {
-
+        return false;
     }
 }

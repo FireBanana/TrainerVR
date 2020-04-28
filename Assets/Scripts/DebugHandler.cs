@@ -15,8 +15,8 @@ public class DebugHandler : MonoBehaviour
 
     void Start()
     {        
-        var txt = DebugUIBuilder.instance.AddLabel("mssg");
-        label = txt.GetComponent<Text>();
+        //var txt = DebugUIBuilder.instance.AddLabel("mssg");
+        //label = txt.GetComponent<Text>();
     }
 
     public void Log(string message)
@@ -26,6 +26,6 @@ public class DebugHandler : MonoBehaviour
 
     private void Update()
     {
-        DebugUIBuilder.instance.Show();
+        //DebugUIBuilder.instance.Show();
     }
 }

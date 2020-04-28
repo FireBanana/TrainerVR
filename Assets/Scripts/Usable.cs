@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Usable : MonoBehaviour
 {
-    public virtual void Use(Vector3 startPosition, Vector3 currentPosiiton)
+    public virtual void Use(Vector3 localPosition, Vector3 currentPosiiton, Transform controllerTransform)
     {
         throw new UnityException("Please implement Use method");
     }

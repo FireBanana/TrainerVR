@@ -6,9 +6,9 @@ public class Interact : MonoBehaviour
 {
     public Usable Interactable;
     
-    public void Use(Vector3 startPosition, Vector3 currentPosition)
+    public void Use(Vector3 localPosition, Vector3 currentPosition, Transform controllerTransform)
     {
-        Interactable.Use(startPosition, currentPosition);
+        Interactable.Use(localPosition, currentPosition, controllerTransform);
     }
 
     public void Released()
