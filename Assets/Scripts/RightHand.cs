@@ -55,7 +55,7 @@ public class RightHand : MonoBehaviour
         if(other.tag == "UISelectable")
         {
             var uiSelectable = other.GetComponent<UISelectable>();
-            //ui selectable 
+            uiSelectable.Select();
             return;
         }
 

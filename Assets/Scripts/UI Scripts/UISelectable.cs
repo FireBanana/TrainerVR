@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class UISelectable : MonoBehaviour
 {
-    public UISelectable Selectable;
-
-    public virtual void Select()
+    public Selectable selectable;
+    public void Select()
     {
-        Selectable.Select();
+        selectable.Select();
     }
 }

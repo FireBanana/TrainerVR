@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GoToLevel : UISelectable
+public class GoToLevel : Selectable
 {
     public string Level;
 
