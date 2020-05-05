@@ -5,10 +5,12 @@ using DG.Tweening;
 
 public class LeftHand : MonoBehaviour
 {
-    bool isHandIn, isGripHeld;
+    bool isHandIn, isGripHeld, inUse;
     Collider currentCollider;
     Interact currentInteract;
     Vector3 initialGrabLocation;
+    public Transform parentTransform;
+    public Transform controllerTransform;
 
     void Start()
     {
@@ -18,17 +20,19 @@ public class LeftHand : MonoBehaviour
 
     void GripPressed()
     {
+        print("grip pressed");
         isGripHeld = true;
 
         if (isHandIn)
         {
             currentInteract = currentCollider.GetComponent<Interact>();
-            initialGrabLocation = transform.position;
+            //initialGrabLocation = transform.position;
         }
     }
 
     void GripReleased()
     {
+        print("grip released");
         isGripHeld = false;
     }
 
@@ -36,19 +40,38 @@ public class LeftHand : MonoBehaviour
     {
         if (isHandIn && isGripHeld)
         {
-            currentInteract.Use(transform.parent.localPosition, transform.position, transform);
+            currentInteract.Use(controllerTransform.localPosition, transform.position, parentTransform);
+            inUse = true;
+        }
+        else if (!isGripHeld && isHandIn && inUse)
+        {
+            inUse = false;
+            currentInteract.Released();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.tag == "UISelectable")
+        {
+            var uiSelectable = other.GetComponent<UISelectable>();
+            uiSelectable.Select();
+            return;
+        }
+
         isHandIn = true;
         currentCollider = other;
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.tag == "UISelectable")
+        {
+            return;
+        }
+
         isHandIn = false;
     }
-
 }
+
+

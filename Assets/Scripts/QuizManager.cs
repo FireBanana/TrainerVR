@@ -17,6 +17,7 @@ public class QuizManager : MonoBehaviour
     private void Start()
     {
         QuizLibrary.Initialize();
+        AnswerCallback(0);
     }
 
     public void AnswerCallback(int id)

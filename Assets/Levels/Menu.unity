@@ -1161,10 +1161,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1487433906}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7046d9e4f3612b4091e683b1216030c, type: 3}
+  m_Script: {fileID: 11500000, guid: 788f5073dd3f970409a2d000af10dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level: QuizScene
+  Function:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1646487374}
+        m_MethodName: OpenQuizInstructions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1487433912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1636,6 +1649,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1646487373}
+  - component: {fileID: 1646487374}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -1660,6 +1674,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1646487374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646487372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab2425d1d6337a4cbf9c7bd45bc8e4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1898529168
 GameObject:
   m_ObjectHideFlags: 0
