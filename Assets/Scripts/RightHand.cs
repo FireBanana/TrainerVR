@@ -52,7 +52,7 @@ public class RightHand : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "UISelectable")
+        if (other.tag == "UISelectable")
         {
             var uiSelectable = other.GetComponent<UISelectable>();
             uiSelectable.Select();
@@ -61,6 +61,10 @@ public class RightHand : MonoBehaviour
 
         isHandIn = true;
         currentCollider = other;
+
+        // TESTING - REMOVE BEFORE DEPLOYING
+        GripPressed();
+        //
     }
 
     private void OnTriggerExit(Collider other)

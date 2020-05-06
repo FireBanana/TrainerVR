@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Interact))]
 public class Usable : MonoBehaviour
 {
     public virtual void Use(Vector3 localPosition, Vector3 currentPosiiton, Transform controllerTransform)
