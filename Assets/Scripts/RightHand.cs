@@ -20,7 +20,6 @@ public class RightHand : MonoBehaviour
 
     void GripPressed()
     {
-        print("grip pressed");
         isGripHeld = true;
 
         if (isHandIn)
@@ -32,7 +31,6 @@ public class RightHand : MonoBehaviour
 
     void GripReleased()
     {
-        print("grip released");
         isGripHeld = false;
     }
 
@@ -40,6 +38,7 @@ public class RightHand : MonoBehaviour
     {
         if (isHandIn && isGripHeld)
         {
+            print(currentInteract.name.ToString());
             currentInteract.Use(controllerTransform.localPosition, transform.position, parentTransform);
             inUse = true;
         }
@@ -52,6 +51,7 @@ public class RightHand : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.tag == "UISelectable")
         {
             var uiSelectable = other.GetComponent<UISelectable>();

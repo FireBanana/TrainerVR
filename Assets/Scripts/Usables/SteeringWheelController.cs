@@ -31,13 +31,9 @@ public class SteeringWheelController : Usable
 
     public override void Use(Vector3 localPosition, Vector3 currentPosition, Transform controllerTransform)
     {
-        //var builder = new StringBuilder();
-       // builder.Append("Angle: ").Append(angle).Append(", From: ").Append(from.ToString("F4")).Append(", To: ").Append(to.ToString("F4"));
-
         if (lastPosition == Vector3.zero)
             lastPosition = localPosition;
 
-        //builder.Append("Current: ").Append(localPosition.ToString("F4")).Append(", Last: ").Append(lastPosition.ToString("F4"));
 
         var steeringWheelLocalPosition = controllerTransform.InverseTransformPoint(parentPivot.position);
 

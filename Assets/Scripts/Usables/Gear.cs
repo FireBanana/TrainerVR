@@ -2,56 +2,77 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SocialPlatforms;
 
 public class Gear : Usable
 {
-    struct GearPoint
+    Dictionary<int, Vector3> GearPositions = new Dictionary<int, Vector3>()
     {
-        public List<int> neighbourPoints;
-        Vector3 eulerRotation;
-
-        public GearPoint(Vector3 _eulerRotation, IEnumerable<int> nPoints)
-        {
-            eulerRotation = _eulerRotation;
-            neighbourPoints = nPoints.ToList();
-        }
-    }
-
-    // 1-index based (9-reverse)
-    Dictionary<int, GearPoint> gearPoints = new Dictionary<int, GearPoint>()
-    {
-        {1, new GearPoint(new Vector3(-22.7f, 8, -20), new[]{2} )},
-        {2, new GearPoint(new Vector3(0, 0, -18.3f), new[]{1, 3, 5} ) },
-        {3, new GearPoint(new Vector3(15.5f, -5.3f, -19), new[]{2} ) },
-        {4, new GearPoint(new Vector3(-26, 0, 0), new[]{5} ) },
-        {5, new GearPoint(new Vector3(0, 0, 0), new[]{2, 4, 6, 8} ) },
-        {6, new GearPoint(new Vector3(21.7f, 0, 0), new[]{5} ) },
-        {7, new GearPoint(new Vector3(-28, -11.3f, 23.1f), new[]{8} ) },
-        {8, new GearPoint(new Vector3(0, 0, 18), new[]{7, 5, 9} ) },
-        {9, new GearPoint(new Vector3(9.7f, 3.6f, 19), new[]{8} ) }
+        {1, new Vector3(0.1145f, -0.3478904f, -0.4169f) },
+        {2, new Vector3(0.1145f, -0.3478904f, -0.3407f) },
+        {3, new Vector3(0.1145f, -0.3478904f,-0.2645f) },
+        {4, new Vector3(0.0546f, -0.3478904f, -0.4169f) },
+        {5, new Vector3(0.0546f, -0.3478904f, -0.3407f) },
+        {6, new Vector3(0.0546f, -0.3478904f, -0.2645f) },
+        {7, new Vector3(-0.0053f, -0.3478904f, -0.4169f) },
+        {8, new Vector3(-0.0053f, -0.3478904f, -0.3407f) },
+        {9, new Vector3(-0.0053f, -0.3478904f, -0.2645f) }
     };
+
+    float verticalLength = 0.0762f, horizontalLength = 0.0599f;
+    Vector3 defaultPosition;
+    Vector3 lastPosition = Vector3.zero;
 
     private void Start()
     {
+        defaultPosition = transform.position;
+    }
+    public override void Use(Vector3 localPosition, Vector3 currentPosition, Transform controllerTransform)
+    {
+        var root = CarController.Instance.transform.position;
+        var relativeControllerPos = currentPosition - root;
+        var relativeGearPos = transform.position - root;
+        //---------- TEST THIS OUT
+
+        if (lastPosition == Vector3.zero)
+            lastPosition = relativeControllerPos;
+
+        var delta = relativeControllerPos - lastPosition;
+
+        var calculatedX = Mathf.Clamp(transform.position.x + delta.x, defaultPosition.x - horizontalLength, defaultPosition.x + horizontalLength);
+        var calculatedZ = Mathf.Clamp(transform.position.z + delta.z, defaultPosition.z - verticalLength, defaultPosition.z + verticalLength);
+
+        transform.position = new Vector3(calculatedX, transform.position.y, calculatedZ);
+
+        lastPosition = relativeControllerPos;
     }
 
-    public override void Use(Vector3 startPosition, Vector3 currentPosition, Transform controllerTransform)
+    void ResolvePosition()
     {
 
     }
 
     public override void Released()
     {
-
-    }
-
-    bool CanMoveHorizontal(Vector3 eulerRatation)
-    {
-        return false;
-    }
-
-    bool CanMoveVertical(Vector3 eulerRatation)
-    {
-        return false;
+        ResolvePosition();
     }
 }
+
+/* The unperformant way
+ 
+var transformedPosition = controllerTransform.InverseTransformPoint(transform.position);
+
+        if (lastPosition == Vector3.zero)
+            lastPosition = localPosition;
+
+        var newPositionDelta = new Vector3(localPosition.x - lastPosition.x, transformedPosition.y, localPosition.z - lastPosition.z);
+
+        transformedPosition += newPositionDelta;
+
+        var retransformedPosition = controllerTransform.TransformPoint(transformedPosition);
+
+        transform.position = new Vector3(retransformedPosition.x, transform.position.y, retransformedPosition.z);
+
+        lastPosition = localPosition;
+        
+*/

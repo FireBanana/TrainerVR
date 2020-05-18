@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    public static CarController Instance;
     public WheelCollider FLCollider, FRCollider, BLCollider, BRCollider;
     public GameObject FLWheel, FRWheel, BLWheel, BRWheel;
     [Space]
@@ -15,12 +16,10 @@ public class CarController : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
         engine = GetComponent<Engine>();
         rigidBody = GetComponent<Rigidbody>();        
     }
-
-    //Reduce CoM
-
 
     public void ApplyTorque(float threshold)
     {
