@@ -69,6 +69,9 @@ public class RightHand : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        //TESTING - REMOVE
+        currentInteract.Released();
+
         if (other.tag == "UISelectable")
         {
             return;

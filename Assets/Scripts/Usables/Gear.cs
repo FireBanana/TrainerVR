@@ -20,18 +20,14 @@ public class Gear : Usable
     };
 
     float verticalLength = 0.0762f, horizontalLength = 0.0599f;
-    Vector3 defaultPosition;
+    public Transform defaultTransform;
     Vector3 lastPosition = Vector3.zero;
 
-    private void Start()
-    {
-        defaultPosition = transform.position;
-    }
     public override void Use(Vector3 localPosition, Vector3 currentPosition, Transform controllerTransform)
     {
         var root = CarController.Instance.transform.position;
         var relativeControllerPos = currentPosition - root;
-        var relativeGearPos = transform.position - root;
+        var position = transform.position;
         //---------- TEST THIS OUT
 
         if (lastPosition == Vector3.zero)
@@ -39,21 +35,58 @@ public class Gear : Usable
 
         var delta = relativeControllerPos - lastPosition;
 
-        var calculatedX = Mathf.Clamp(transform.position.x + delta.x, defaultPosition.x - horizontalLength, defaultPosition.x + horizontalLength);
-        var calculatedZ = Mathf.Clamp(transform.position.z + delta.z, defaultPosition.z - verticalLength, defaultPosition.z + verticalLength);
+        var calculatedX = Mathf.Clamp(position.x + delta.x, defaultTransform.position.x - horizontalLength, defaultTransform.position.x + horizontalLength);
+        var calculatedZ = Mathf.Clamp(position.z + delta.z, defaultTransform.position.z - verticalLength, defaultTransform.position.z + verticalLength);
 
-        transform.position = new Vector3(calculatedX, transform.position.y, calculatedZ);
+        var finalX = position.z > defaultTransform.position.z - 0.01f && position.z < defaultTransform.position.z + 0.01f ? calculatedX : position.x;
+        //Take a gear from each column
+        var finalZ = position.x > (defaultTransform.position.x - 0.0599f) - 0.01f && position.x < (defaultTransform.position.x - 0.0599f) + 0.01f ||
+            position.x >= defaultTransform.position.x - 0.01f && position.x <= defaultTransform.position.x + 0.01f ||
+            position.x > (defaultTransform.position.x + 0.0599f) - 0.01f && position.x < (defaultTransform.position.x + 0.0599f) + 0.01f ? calculatedZ : position.z;
+
+        transform.position = new Vector3(finalX, transform.position.y, finalZ);
 
         lastPosition = relativeControllerPos;
     }
 
     void ResolvePosition()
     {
+        //Release the gear to the nearest gear
+        var finalLocalPosition = Vector3.zero;
 
+        //First Column
+        if(transform.localPosition.x > (defaultTransform.localPosition.x - 0.0599f) -  0.0599f / 2 && transform.localPosition.x < (defaultTransform.localPosition.x - 0.0599f) + 0.0599f / 2)
+        {
+            finalLocalPosition.x = defaultTransform.localPosition.x - 0.0599f;
+        }
+        else if(transform.localPosition.x >= (defaultTransform.localPosition.x) - 0.0599f / 2 && transform.localPosition.x <= (defaultTransform.localPosition.x) + 0.0599f / 2)
+        {
+            finalLocalPosition.x = defaultTransform.localPosition.x;
+        }
+        else if(transform.localPosition.x > (defaultTransform.localPosition.x + 0.0599f) - 0.0599f / 2 && transform.localPosition.x < (defaultTransform.localPosition.x + 0.0599f) + 0.0599f / 2)
+        {
+            finalLocalPosition.x = defaultTransform.localPosition.x + 0.0599f;
+        }
+
+        if(transform.localPosition.z > (defaultTransform.localPosition.z - 0.0762f) - 0.0762f / 2 && transform.localPosition.z < (defaultTransform.localPosition.z - 0.0762f) + 0.0762f / 2)
+        {
+            finalLocalPosition.z = defaultTransform.localPosition.z - 0.0762f;
+        }
+        else if (transform.localPosition.z >= (defaultTransform.localPosition.z) - 0.0762f / 2 && transform.localPosition.z <= (defaultTransform.localPosition.z) + 0.0762f / 2)
+        {
+            finalLocalPosition.z = defaultTransform.localPosition.z;
+        }
+        else if (transform.localPosition.z > (defaultTransform.localPosition.z + 0.0762f) - 0.0762f / 2 && transform.localPosition.z < (defaultTransform.localPosition.z + 0.0762f) + 0.0762f / 2)
+        {
+            finalLocalPosition.z = defaultTransform.localPosition.z + 0.0762f;
+        }
+
+        transform.localPosition = new Vector3(finalLocalPosition.x, transform.localPosition.y, finalLocalPosition.z);
     }
 
     public override void Released()
     {
+        lastPosition = Vector3.zero;
         ResolvePosition();
     }
 }

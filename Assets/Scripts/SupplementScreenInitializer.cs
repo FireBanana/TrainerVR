@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class InstructionsInitializer : MonoBehaviour
+public class SupplementScreenInitializer : MonoBehaviour
 {
     public TextMeshPro Description;
     public GoToLevel goToLevel;
     void Start()
     {
-        goToLevel.Level = InstructionsManager.NextLevel;
-        Description.text = InstructionsManager.Instructions;
+        goToLevel.Level = SupplementScreenManager.NextLevel;
+        Description.text = SupplementScreenManager.Instructions;
     }
 }

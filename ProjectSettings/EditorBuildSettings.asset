@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/Instructions.unity
     guid: a08957d5cc072f2438c34e74bc4cbc4c
+  - enabled: 1
+    path: Assets/Levels/Park.unity
+    guid: b37856208b023b241b56faa279c0b0e5
+  - enabled: 1
+    path: Assets/Levels/EndScreen.unity
+    guid: 505f87165589bc640b192ef954253df4
   m_configObjects: {}
