@@ -14,13 +14,13 @@ public class HandEventManager : MonoBehaviour
     public static event ButtonEvent RightHandTriggerReleased, LeftHandTriggerReleased;
     //public static event ButtonEvent RightIndexTriggerPressed, RightIndexTriggerReleased;
 
-    public static event ValuedButtonEvent RightIndexTriggerHeld;
+    public static event ValuedButtonEvent RightIndexTriggerHeld, LeftIndexTriggerHeld;
 
     public static event ButtonEvent AButtonPressed;
     public static event ButtonEvent BButtonPressed;
 
     bool hand_trigger_rightPressed, hand_trigger_leftPressed;
-    bool index_trigger_rightPressed;
+    bool index_trigger_rightPressed, index_trigger_leftPressed;
 
     bool a_button_pressed, b_button_pressed;
 
@@ -37,11 +37,12 @@ public class HandEventManager : MonoBehaviour
 
     IEnumerator Tester()
     {
+
         while (true)
         {
-            var hand_trigger_valR = OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger);
-            print(hand_trigger_valR);
-            yield return new WaitForSeconds(1f);
+            //var hand_trigger_valR = OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger);
+            //print(hand_trigger_valR);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -51,6 +52,7 @@ public class HandEventManager : MonoBehaviour
         var hand_trigger_valR = OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger);
         var hand_trigger_valL = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger);
         var index_trigger_valR = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
+        var index_trigger_valL = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
 
         //Button 1 = A, Button 2 = B
         ExecuteButton(ref a_button_pressed, OVRInput.Get(OVRInput.Button.One), AButtonPressed);
@@ -59,6 +61,7 @@ public class HandEventManager : MonoBehaviour
         ExecuteTrigger(hand_trigger_valR, ref hand_trigger_rightPressed, RightHandTriggerPressed, RightHandTriggerReleased);
         ExecuteTrigger(hand_trigger_valL, ref hand_trigger_leftPressed, LeftHandTriggerPressed, LeftHandTriggerReleased);
         ExecuteTriggerWithHeld(index_trigger_valR, ref index_trigger_rightPressed, RightIndexTriggerHeld);
+        ExecuteTriggerWithHeld(index_trigger_valL, ref index_trigger_leftPressed, LeftIndexTriggerHeld);
     }
 
     void ExecuteButton(ref bool previousState, bool currentState, ButtonEvent buttonPressed)

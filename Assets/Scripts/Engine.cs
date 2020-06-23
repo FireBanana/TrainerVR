@@ -23,11 +23,11 @@ public class Engine : MonoBehaviour
 
     List<float[]> gearTorqueMultipliers = new List<float[]>()
     {
-        new float[]{0, 5.55f},
-        new float[]{5.55f, 12.5f},
-        new float[]{12.5f, 20.93f},
-        new float[]{20.93f, 25f},
-        new float[]{25f, 36.1f},
+        new float[]{0, 6000},
+        new float[]{6000, 12000},
+        new float[]{12000, 18000},
+        new float[]{18000, 24000},
+        new float[]{24000, 30000},
     };
 
     [HideInInspector] public GearState CurrentGear = GearState.First;
@@ -119,31 +119,35 @@ public class Engine : MonoBehaviour
         //check if accelerator pressed
 
 
-        if (CurrentGear == GearState.Reverse || CurrentGear == GearState.Neutral)
+        if (CurrentGear == GearState.Neutral)
         {
-            //Reverse stuff here
             return 0;
         }
 
+        if(CurrentGear == GearState.Reverse)
+        {
+            return Mathf.Lerp(0, -6000, gearThreshold);
+        }
+
         var speedFrame = gearTorqueMultipliers[GetGear() - 1];
-        float currentAcceleration;
 
-        if (currentSpeed < speedFrame[0])
-        {
-            currentAcceleration = Mathf.Lerp(0, 1, currentSpeed / speedFrame[0]);
-        }
-        else
-        {
-            currentAcceleration = Mathf.Lerp(1, 0, currentSpeed / speedFrame[1]);
-        }
+        return Mathf.Lerp(0, speedFrame[1], gearThreshold);
 
-        //REMOVE THIS
-        //UI.Instance.speed.text = currentSpeed.ToString("0.0");
-        //print(currentAcceleration);
+        //
+        //float currentAcceleration;
 
-        if (currentAcceleration < 0.2f)
-            currentAcceleration = 0.2f;
+        //if (currentSpeed < speedFrame[0])
+        //{
+        //    currentAcceleration = Mathf.Lerp(0, 1, currentSpeed / speedFrame[0]);
+        //}
+        //else
+        //{
+        //    currentAcceleration = Mathf.Lerp(1, 0, currentSpeed / speedFrame[1]);
+        //}
 
-        return currentAcceleration * gearThreshold * acceleration;
+        //if (currentAcceleration < 0.2f)
+        //    currentAcceleration = 0.2f;
+
+        //return currentAcceleration * gearThreshold * acceleration;
     }
 }

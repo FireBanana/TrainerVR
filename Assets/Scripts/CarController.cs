@@ -8,7 +8,6 @@ public class CarController : MonoBehaviour
     public WheelCollider FLCollider, FRCollider, BLCollider, BRCollider;
     public GameObject FLWheel, FRWheel, BLWheel, BRWheel;
     [Space]
-    public int MaxSteerAngle = 45;
     public float SteerSensitivity;
     Engine engine;
     [HideInInspector]public Rigidbody rigidBody;
@@ -18,17 +17,17 @@ public class CarController : MonoBehaviour
     {
         Instance = this;
         engine = GetComponent<Engine>();
-        rigidBody = GetComponent<Rigidbody>();        
+        rigidBody = GetComponent<Rigidbody>();
+
+        HandEventManager.LeftIndexTriggerHeld += (val) => {
+            BLCollider.brakeTorque = Mathf.Lerp(0, 6000, val);
+            BRCollider.brakeTorque = Mathf.Lerp(0, 6000, val);
+        };
     }
 
     public void ApplyTorque(float threshold)
     {
-        //threshold *= -1;
-
-        var torque = engine.GetAcceleration(transform.InverseTransformDirection(rigidBody.velocity).z * -1, threshold);
-
-        //if(threshold > 0.3f)
-        //print(torque);
+        var torque = engine.GetAcceleration(transform.InverseTransformDirection(rigidBody.velocity).z, threshold) * -1;
 
         BLCollider.motorTorque = torque * Time.deltaTime;
         BRCollider.motorTorque = torque * Time.deltaTime;

@@ -13,11 +13,21 @@ public class QuizManager : MonoBehaviour
     int correctAnswers;
 
     int questionPointer = 0;
+    int elapsedTime;
 
     private void Start()
     {
         QuizLibrary.Initialize();
         AnswerCallback(0);
+    }
+
+    IEnumerator Timer()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            elapsedTime++;
+        }
     }
 
     public void AnswerCallback(int id)
@@ -33,6 +43,7 @@ public class QuizManager : MonoBehaviour
         if(questionPointer >= QuizLibrary.QuestionList.Count)
         {
             //END Quiz
+            SupplementScreenManager.ShowEnding(elapsedTime.ToString(), $"{correctAnswers}/{QuizLibrary.QuestionList.Count}\n", "Menu", "You have completed the quiz!");
             return;
         }
 

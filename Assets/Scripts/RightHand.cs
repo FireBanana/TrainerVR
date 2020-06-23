@@ -38,7 +38,6 @@ public class RightHand : MonoBehaviour
     {
         if (isHandIn && isGripHeld)
         {
-            print(currentInteract.name.ToString());
             currentInteract.Use(controllerTransform.localPosition, transform.position, parentTransform);
             inUse = true;
         }
@@ -63,14 +62,14 @@ public class RightHand : MonoBehaviour
         currentCollider = other;
 
         // TESTING - REMOVE BEFORE DEPLOYING
-        GripPressed();
+        //GripPressed();
         //
     }
 
     private void OnTriggerExit(Collider other)
     {
         //TESTING - REMOVE
-        currentInteract.Released();
+        //currentInteract.Released();
 
         if (other.tag == "UISelectable")
         {
