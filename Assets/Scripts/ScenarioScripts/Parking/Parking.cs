@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Parking : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Vector3 InitialPostion = new Vector3(25.596f, 1.13f, -15.447f);
+    Vector3 InitialRotation = new Vector3(0, -221.444f, 0);
+    public ScenarioManager manager;
+    public GameObject Car;
+
+    [HideInInspector] public bool hasOvershot;
+
+    private void Awake()
     {
-        
+        Car.transform.position = InitialPostion;
+        Car.transform.eulerAngles = InitialRotation;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void End()
     {
-        
+        manager.SetEnding();
     }
 }

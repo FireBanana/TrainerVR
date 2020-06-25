@@ -25,6 +25,7 @@ public class ScenarioManager : MonoBehaviour
     public static bool EnableTimer;
     public GameObject ConeContainer;
     public GameObject CompleteContainer;
+    public GameObject ParkingContainer;
 
     bool isTimerRunning;
 
@@ -88,7 +89,7 @@ public class ScenarioManager : MonoBehaviour
             else if (collectibles == 2)
                 score += 6;
 
-            SupplementScreenManager.ShowEnding((BaseTime - remainingTime).ToString() + " seconds", $"{score}/10", "Menu", $"Cones Moved: {conesMoved}/12\nBags Collected: {collectibles}/2\nTotal Hits: {totalHits}");
+            SupplementScreenManager.ShowEnding((BaseTime - remainingTime).ToString() + " seconds", $"\n{score}/10", "Menu", $"Cones Moved: {conesMoved}/12\nBags Collected: {collectibles}/2\nTotal Hits: {totalHits}");
         }
         else if (CurrentScenario == Scenario.ChangeTire)
         {
@@ -104,14 +105,20 @@ public class ScenarioManager : MonoBehaviour
         }
         else if (CurrentScenario == Scenario.Parking)
         {
+            int elapsedTime = BaseTime - remainingTime;
+            elapsedTime = elapsedTime > 40 ? 40 : elapsedTime;
+            int score = (int)Mathf.Lerp(0, 5, 1 - elapsedTime / 40);
+            score += ParkingContainer.GetComponent<Parking>().hasOvershot ? 0 : 5; 
 
+            SupplementScreenManager.ShowEnding(elapsedTime.ToString() + " seconds", $"\n{score}/10", "Menu", "");
         }
         else if (CurrentScenario == Scenario.Complete)
         {
             int elapsedTime = BaseTime - remainingTime;
+            elapsedTime = elapsedTime > 50 ? 50 : elapsedTime;
             int score = (int)Mathf.Lerp(0, 10, 1 - elapsedTime / 50);
 
-            SupplementScreenManager.ShowEnding((BaseTime - remainingTime).ToString() + " seconds", $"{score}/10", "Menu", "");
+            SupplementScreenManager.ShowEnding(elapsedTime.ToString() + " seconds", $"\n{score}/10", "Menu", "");
         }
         else if (CurrentScenario == Scenario.UTurn)
         {
@@ -139,7 +146,7 @@ public class ScenarioManager : MonoBehaviour
         }
         else if (CurrentScenario == Scenario.Parking)
         {
-
+            ParkingContainer.SetActive(true);
         }
         else if (CurrentScenario == Scenario.Complete)
         {
