@@ -6,11 +6,10 @@ public class TireChange : MonoBehaviour
 {
     public List<MonoBehaviour> Scripts;
     public GameObject RealTire, FakeTire;
-    public GameObject ScrewGun;
+    public GameObject TireHolder;
 
     private void Awake()
     {
-        return;
         foreach(var item in Scripts)
         {
             item.enabled = false;
@@ -18,5 +17,15 @@ public class TireChange : MonoBehaviour
 
         RealTire.SetActive(false);
         FakeTire.SetActive(true);
+
+        var InitialTire = FakeTire.GetComponent<Tire>();
+        InitialTire.transform.SetParent(TireHolder.transform);
     }
+
+    public void End()
+    {
+
+    }
+
+    
 }

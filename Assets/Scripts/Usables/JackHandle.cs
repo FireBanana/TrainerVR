@@ -35,7 +35,7 @@ public class JackHandle : Usable
         transform.eulerAngles = pos;
 
         var rodPosition = Rod.transform.position;
-        rodPosition.y += angle * 0.001f;
+        rodPosition.y += angle * 0.0005f;
         Rod.transform.position = rodPosition;
     }
 

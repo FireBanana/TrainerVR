@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class Screw : MonoBehaviour
 {
-    public float CurrentSpin;
     public bool isAvailable;
-    public Spanner Spanner;
+    public bool IsNew;
+    public Tire TireContainer;
 
     public void Remove()
     {
         isAvailable = false;
-        Spanner.CheckScrews();
-        Spanner.IsHooked = false;
+        TireContainer.RemoveScrew(transform.parent.gameObject);
+    }
+
+    public void Add()
+    {
+        isAvailable = true;
+        TireContainer.AddScrew(transform.parent.gameObject);
     }
 }

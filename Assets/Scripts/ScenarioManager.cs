@@ -26,6 +26,7 @@ public class ScenarioManager : MonoBehaviour
     public GameObject ConeContainer;
     public GameObject CompleteContainer;
     public GameObject ParkingContainer;
+    public GameObject TireChangeContainer;
 
     bool isTimerRunning;
 
@@ -93,7 +94,7 @@ public class ScenarioManager : MonoBehaviour
         }
         else if (CurrentScenario == Scenario.ChangeTire)
         {
-
+            SupplementScreenManager.ShowEnding((BaseTime - remainingTime).ToString() + " seconds", $"\n-", "Menu", $"\nCongratulations, you completed this maintenance module!");
         }
         else if (CurrentScenario == Scenario.EngineWater)
         {
@@ -134,7 +135,7 @@ public class ScenarioManager : MonoBehaviour
         }
         else if (CurrentScenario == Scenario.ChangeTire)
         {
-            //wheel made
+            TireChangeContainer.SetActive(true);
         }
         else if (CurrentScenario == Scenario.EngineWater)
         {

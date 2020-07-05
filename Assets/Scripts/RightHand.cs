@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class RightHand : MonoBehaviour
 {
-    bool isHandIn, isGripHeld, inUse;
+    public bool isHandIn, isGripHeld, inUse;
     Collider currentCollider;
     Interact currentInteract;
     Vector3 initialGrabLocation;
