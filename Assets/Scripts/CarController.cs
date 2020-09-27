@@ -22,7 +22,15 @@ public class CarController : MonoBehaviour
         HandEventManager.LeftIndexTriggerHeld += (val) => {
             BLCollider.brakeTorque = Mathf.Lerp(0, 6000, val);
             BRCollider.brakeTorque = Mathf.Lerp(0, 6000, val);
+            StartCoroutine(BrakeRelease());
         };
+    }//
+
+    IEnumerator BrakeRelease()
+    {
+        yield return new WaitForEndOfFrame();
+        BLCollider.brakeTorque = 0;
+        BRCollider.brakeTorque = 0;
     }
 
     public void ApplyTorque(float threshold)

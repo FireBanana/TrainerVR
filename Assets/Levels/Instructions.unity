@@ -665,7 +665,7 @@ MonoBehaviour:
   m_maskType: 0
 --- !u!222 &1419348336
 CanvasRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -673,7 +673,7 @@ CanvasRenderer:
   m_CullTransparentMesh: 0
 --- !u!33 &1419348337
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1269,7 +1269,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8296172668469878728}
   m_LocalRotation: {x: -0.41225007, y: -0.41225007, z: -0.5744997, w: 0.5744997}
-  m_LocalPosition: {x: 0.94, y: -6.119, z: -12.892}
+  m_LocalPosition: {x: 0.94, y: -6.31, z: -12.957}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children:
   - {fileID: 1419348334}

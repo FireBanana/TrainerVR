@@ -13524,6 +13524,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 245825838, guid: e80ca7bd60df7d9438c9d1b4e376ebb8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1260221053, guid: e80ca7bd60df7d9438c9d1b4e376ebb8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1422905512, guid: e80ca7bd60df7d9438c9d1b4e376ebb8, type: 3}
       propertyPath: TurnSensitivity
       value: 45
@@ -13562,6 +13570,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212871955298134141, guid: e80ca7bd60df7d9438c9d1b4e376ebb8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4061885237045467135, guid: e80ca7bd60df7d9438c9d1b4e376ebb8,
         type: 3}

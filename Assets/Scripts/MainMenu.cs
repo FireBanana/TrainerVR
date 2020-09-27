@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
 
     public void GoToComplete()
     {
-        SupplementScreenManager.ShowInstructions("In this scenario, you'll see some rings around the track. Go through them as quickly as you can.", "Park", true, 100, ScenarioManager.Scenario.Complete);
+        SupplementScreenManager.ShowInstructions("In this scenario, you'll see some rings around the track. Go through them as quickly as you can.", "Park", true, 200, ScenarioManager.Scenario.Complete);
     }
 
     public void OpenLevels()
