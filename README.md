@@ -9,13 +9,13 @@ TrainerVR is a simulator which runs on the Oculus Quest allowing users to learn 
 * Maintenance tasks
 
 Cone driving scenario:
-![cone](images/2.gif)
+![cone](images/2-min.gif)
 
 Maintenance:
-![maint](images/3.gif)
+![maint](images/3-min.gif)
 
 Quiz:
-![quiz](images/4.gif)
+![quiz](images/4-min.gif)
 
 ## Plans for the future
 * Implement a clutch, gas, and brake pedal using a Raspberry Pi for extra realism.
